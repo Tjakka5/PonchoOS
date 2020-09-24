@@ -4,4 +4,5 @@ Following along with [Poncho's Youtube series on making a 64 bit OS from scratch
 
 
 Run scripts/build.bat to build the project
-Run scripts/start.bat to build and run the project
+
+Run scripts/start.bat to run the built project
