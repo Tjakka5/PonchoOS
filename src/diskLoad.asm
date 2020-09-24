@@ -1,10 +1,11 @@
 PROGRAM_SPACE equ 0x7e00
+SECTOR_COUNT equ 4
 
-ReadDisk:
+DiskLoad:
 	mov ah, 0x02
 	mov bx, PROGRAM_SPACE
-	mov al, 4
-	mov dl, [BOOT_DISK]
+	mov al, SECTOR_COUNT
+	mov dl, [BOOT_DRIVE]
 	mov ch, 0x00
 	mov dh, 0x00
 	mov cl, 0x02
@@ -15,14 +16,15 @@ ReadDisk:
 
 	ret
 
-BOOT_DISK:
-	db 0
-
-DiskReadErrorString:
-	db 'Disk Read failed!', 0
-
 DiskReadFailed:
 	mov bx, DiskReadErrorString
 	call PrintString
-	
+
 	jmp $
+
+
+BOOT_DRIVE: 
+	db 0
+
+DiskReadErrorString:
+	db 'Disk read failed', 0

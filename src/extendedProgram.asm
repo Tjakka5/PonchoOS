@@ -1,9 +1,7 @@
-[org 0x7e00]
-
 jmp EnterProtectedMode
 
 %include "gdt.asm"
-%include "print.asm"
+%include "printString.asm"
 
 EnterProtectedMode:
 	call EnableA20
@@ -19,16 +17,17 @@ EnableA20:
 	in al, 0x92
 	or al, 2
 	out 0x92, al
+
 	ret
 
 [bits 32]
 
-%include "CPUID.asm"
-%include "SimplePaging.asm"
+%include "cpuid.asm"
+%include "simplePaging.asm"
 
 StartProtectedMode:
 	mov ax, dataseg
-	mov dx, ax
+	mov ds, ax
 	mov ss, ax
 	mov es, ax
 	mov fs, ax
@@ -42,12 +41,15 @@ StartProtectedMode:
 	jmp codeseg:Start64Bit
 
 [bits 64]
+[extern _start]
 
 Start64Bit:
 	mov edi, 0xb8000
 	mov rax, 0x1f201f201f201f20
 	mov ecx, 500
 	rep stosq
+
+	call _start
 
 	jmp $
 

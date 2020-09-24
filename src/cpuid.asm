@@ -1,11 +1,11 @@
-DetectCPUID:
+DetectCPUID: 
 	pushfd
 	pop eax
 
 	mov ecx, eax
 
 	xor eax, 1 << 21
-	
+
 	push eax
 	popfd
 
